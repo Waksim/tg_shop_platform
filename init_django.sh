@@ -4,6 +4,7 @@
 python django_app/manage.py migrate
 
 # Загрузка тестовых данных
+echo "Выполнение скрипта load_data.py..."
 python django_app/load_data.py
 
 # Создание суперпользователя, если он не существует
