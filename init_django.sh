@@ -4,7 +4,7 @@
 python django_app/manage.py migrate
 
 # Загрузка тестовых данных
-python django_app/manage.py load_data
+python django_app/load_data.py
 
 # Создание суперпользователя, если он не существует
 echo "Проверка и создание суперпользователя, если он не существует..."
