@@ -5,6 +5,7 @@ services:
   db:
     image: postgres:15
     container_name: tg_shop_db
+    restart: unless-stopped  # Автоматический перезапуск
     env_file:
       - .env  # Файл с переменными окружения
     environment:
@@ -22,6 +23,7 @@ services:
       context: .  # Контекст сборки — текущая директория
       dockerfile: Dockerfile.django  # Используемый Dockerfile для Django
     container_name: tg_shop_django
+    restart: unless-stopped  # Автоматический перезапуск
     env_file:
       - .env  # Файл с переменными окружения
     volumes:
@@ -41,6 +43,7 @@ services:
       context: .  # Контекст сборки — текущая директория
       dockerfile: Dockerfile.bot  # Используемый Dockerfile для бота
     container_name: tg_shop_bot
+    restart: unless-stopped  # Автоматический перезапуск
     env_file:
       - .env  # Файл с переменными окружения
     volumes:
