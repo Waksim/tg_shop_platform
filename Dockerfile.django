@@ -14,6 +14,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копируем весь проект в контейнер
 COPY . /app/
 
+# Делаем скрипт init_django.sh исполняемым
+RUN chmod +x /app/init_django.sh
+
 # Открываем порт 8000 (по желанию)
 EXPOSE 8000
 
