@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Установка PYTHONPATH на корень проекта
+export PYTHONPATH="/app"
+
 # Применение миграций базы данных
 python django_app/manage.py migrate
 
