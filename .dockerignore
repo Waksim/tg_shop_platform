@@ -1,0 +1,42 @@
+# Игнорирование файлов Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Игнорирование файлов виртуального окружения
+.env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Игнорирование системных файлов
+.DS_Store
+Thumbs.db
+
+# Игнорирование файлов IDE
+.idea/
+.vscode/
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# Игнорирование файлов Git
+.git/
+.gitignore
+
+# Игнорирование логов и временных файлов
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Игнорирование базы данных Django (если используется SQLite)
+db.sqlite3
+db.sqlite3-journal
+
+# Игнорирование файлов миграций Python (опционально)
+**/migrations/__pycache__/
+**/migrations/*.pyc

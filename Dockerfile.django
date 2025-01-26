@@ -1,0 +1,21 @@
+# Dockerfile.django
+
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Устанавливаем необходимые пакеты для компиляции зависимостей (например, для psycopg2)
+RUN apt-get update && apt-get install -y libpq-dev gcc
+
+# Копируем файл зависимостей и устанавливаем их
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Копируем весь проект в контейнер
+COPY . /app/
+
+# Открываем порт 8000 (по желанию)
+EXPOSE 8000
+
+# Запускаем сервер по умолчанию
+CMD ["python", "django_app/manage.py", "runserver", "0.0.0.0:8000"]

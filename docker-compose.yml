@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  # Сервис базы данных PostgreSQL
+  db:
+    image: postgres:15
+    container_name: tg_shop_db
+    env_file:
+      - .env  # Файл с переменными окружения
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}           # Имя базы данных
+      POSTGRES_USER: ${POSTGRES_USER}       # Имя пользователя базы данных
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # Пароль пользователя базы данных
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Персистентное хранилище данных PostgreSQL
+    networks:
+      - tg_shop_net  # Подключение к сети проекта
+
+  # Сервис Django-приложения
+  django:
+    build:
+      context: .  # Контекст сборки — текущая директория
+      dockerfile: Dockerfile.django  # Используемый Dockerfile для Django
+    container_name: tg_shop_django
+    env_file:
+      - .env  # Файл с переменными окружения
+    volumes:
+      - .:/app  # Монтирование текущей директории в контейнер для горячей перезагрузки
+      - ./logs:/app/logs  # Логи сохраняются в локальную папку logs
+    depends_on:
+      - db  # Зависимость от сервиса базы данных
+    networks:
+      - tg_shop_net  # Подключение к сети проекта
+    ports:
+      - "8000:8000"  # Проброс порта для доступа к Django-приложению
+    entrypoint: ["/app/init_django.sh"]  # Используем новый скрипт инициализации
+
+  # Сервис Telegram-бота
+  bot:
+    build:
+      context: .  # Контекст сборки — текущая директория
+      dockerfile: Dockerfile.bot  # Используемый Dockerfile для бота
+    container_name: tg_shop_bot
+    env_file:
+      - .env  # Файл с переменными окружения
+    volumes:
+      - .:/app  # Монтирование текущей директории в контейнер для горячей перезагрузки
+      - ./logs:/app/logs  # Логи сохраняются в локальную папку logs
+    depends_on:
+      - db  # Зависимость от сервиса базы данных
+    networks:
+      - tg_shop_net  # Подключение к сети проекта
+    command: >
+      sh -c "python -m bot.main"  # Запуск бота
+
+networks:
+  tg_shop_net:
+    driver: bridge  # Используемый драйвер сети
+
+volumes:
+  postgres_data:
+    driver: local  # Локальное персистентное хранилище для данных PostgreSQL
