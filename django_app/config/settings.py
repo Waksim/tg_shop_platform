@@ -95,3 +95,12 @@ USE_TZ = True
 
 # Поле по умолчанию
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# ==============  ВАЖНО  ==============
+# Инициализация учётных данных YooKassa:
+
+from yookassa import Configuration
+
+Configuration.account_id = YOOKASSA_SHOP_ID
+Configuration.secret_key = YOOKASSA_API_KEY
